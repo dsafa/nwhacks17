@@ -24,7 +24,14 @@ app.use(function(req, res, next) {
 app.post('/api/location', multer.array(), function (req, res) {
 	console.log(req.body);
 
-  pg.query('SELECT * FROM Hotspot', [], function (err, result) {
+  var src = req.body["location1"].split(",");
+  var dest = req.body["location2"].split(",");
+
+  var lat = parseFloat(src[0]) + parseFloat(dest[0]);
+  var lng = parseFloat(src[1]) + lat
+
+  pg.query("SELECT * FROM Hotspot H WHERE SQRT(POW($1 - H.Lat, 2) + POW($2 - H.Long, 2)) < $3;", 
+    [lat, lng, parseFloat(req.body["radius"])/111], function (err, result) {
     if (err) throw err;
 
     // just print the result to the console
@@ -35,4 +42,4 @@ app.post('/api/location', multer.array(), function (req, res) {
 
     res.status(200).json(vals)
   });
-})
+});
