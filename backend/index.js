@@ -11,6 +11,16 @@ var config = {
 
 var pg = new pool(config)
 
+var crimeArr = [["SexOffences", 6.5], ["Assaults", 8.0], ["Robbery", 10.0], ["BreakingAndEntering", 2.0], ["TheftOfMotorVehicle", 4.5], ["TheftFromAuto", 4.5], ["Theft5K", 3.0], ["Arson", 2.5], ["Mischief", 1.0], ["OffensiveWeapons", 7.5]];  
+var crimeStats = {};
+pg.query("SELECT * FROM CrimeStatistics;",
+    [], function (err, result) {
+      if (err) throw err;
+      result.rows.forEach(function(row) {
+        crimeStats[row["Neighbourhood"]] = row;
+      })
+});
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 })
@@ -24,19 +34,11 @@ app.use(function(req, res, next) {
 var calcCrimeScore = function(hotspot) {
   var neigh = hotspot["Neighbourhood"]
   var score = 0;
-
-  pg.query("SELECT * FROM CrimeStatistics WHERE Neighbourhood=$1;",
-    [neigh], function (err, result) {
-      if (err) throw err;
-      
-      var res = result.rows[0]
-
-      var crimeArr = [["SexOffences", 6.5], ["Assaults", 8.0], ["Robbery", 10.0], ["BreakingAndEntering", 2.0], ["TheftOfMotorVehicle", 4.5], ["TheftFromAuto", 4.5], ["Theft5K", 3.0], ["Arson", 2.5], ["Mischief", 1.0], ["OffensiveWeapons", 7.5]]
-      
-      for (i = 0; i < crimeArr.length; i++) {
-        score += parseInt(res[crimeArr[i][0]]) * crimeArr[i][1]
-      }
-    });
+  var res = crimeStats[neigh];
+  for (i = 0; i < crimeArr.length; i++) {
+    score += parseInt(res[crimeArr[i][0]]) * crimeArr[i][1]
+  }
+    
   return score;
 }
 
@@ -60,6 +62,9 @@ app.post('/api/location', multer.array(), function (req, res) {
       console.log(score)
       vals["locations"].push(row)
     });
+
+    vals["locations"].sort();
+    vals["locations"].reverse();
 
     res.status(200).json(vals)
   });
