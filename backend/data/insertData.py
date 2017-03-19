@@ -5,5 +5,5 @@ with open("script.sh", "w") as script:
 
 	hotspots = [line.rstrip('\n') for line in open('hotspots.csv')]
 	for hotspot in hotspots:
-		insertStr = "INSERT INTO Hotspots (Neighbourhood, Lat, Long) VALUES ({});\n".format(hotspot)
+		insertStr = "INSERT INTO Hotspot (Neighbourhood, Lat, Long) VALUES ({});\n".format(hotspot)
 		script.write(insertStr)
