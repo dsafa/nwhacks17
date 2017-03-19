@@ -1,21 +1,17 @@
+<h1 id="title">Top 3 Recommended Meetups</h1>
 
-	<h1 id="title">Top 3 Recommended Meetups</h1>
+<div id="inject-display"></div>
 
-	<div id="iframe">
-		<div class="item">
-			<div class="location">Vancouver</div>
-			<div class="street">2120 Cambie St, Vancouver, BC 122 123</div>
-			<div class="distance">1 mi</div>
-		</div>
-		<div class="item">
-			<div class="location">Art</div>
-			<div class="street">2120 Cambie St, Vancouver, BC 122 123</div>		
-			<div class="distance">1 mi</div>
-		</div>
-		<div class="item">
-			<div class="location">UBC</div>
-			<div class="street">2120 Cambie St, Vancouver, BC 122 123</div>		
-			<div class="distance">1 mi</div>
-		</div>
-	</div>
+<script id="loading" type="text/x-handlebars-template">
+    <div class="loader">Loading...</div>
+</script>
 
+<script id="items" type="text/x-handlebars-template">
+    {{#each locations}}
+        <div class="item">
+            <div class="location">{{name}}</div>
+            <div class="street">{{address}}</div>
+            <div class="distance">{{distance}}</div>
+        </div>
+    {{/each}}
+</script>
