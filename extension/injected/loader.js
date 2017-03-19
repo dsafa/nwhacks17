@@ -71,7 +71,8 @@ $(document).ready(function() {
         var req_data = {
             location1: user_latitude + "," + user_longitude,
             location2: seller_latitude + "," + seller_longitude,
-            radius: 2
+            radius: 2,
+            size: 4
         };
 
         restAPI.sendPost(
