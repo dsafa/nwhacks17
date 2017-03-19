@@ -1,7 +1,7 @@
 // Get the lat / long of the ad's location
 var maps_box = document.getElementById("map");
-var latitude = google.dataset.latitude;
-var longitude = google.dataset.longitude;
+var latitude = maps_box.dataset.latitude;
+var longitude = maps_box.dataset.longitude;
 
 // Find location to place our embedded element
 var location_to_append = document.getElementsByClassName("mapbox");
