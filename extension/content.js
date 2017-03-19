@@ -13,3 +13,8 @@ some_button.appendChild(text);
 
 // Place our embedded element onto the page
 location_to_append[0].after(some_button);
+
+//Inject inject.html into proper location
+var iframe = document.createElement("iframe");
+iframe.src = chrome.extension.getURL("inject.html");
+location_to_append[0].after(iframe);
