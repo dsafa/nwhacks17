@@ -1,0 +1,7 @@
+malls
+police+stations
+public+places
+schools
+community+centers
+restaurants
+convenience+stores
