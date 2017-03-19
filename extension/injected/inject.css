@@ -22,10 +22,14 @@
     cursor: pointer;
 }
 
-#errormsg.text {
-    border-top: 0.5px solid black;
-    padding-top: 10px;
-    padding-bottom: 30px;
+#errormsg.item {
+    color: #DB5656;
+    font-size: 14px !important;
+}
+
+#somemsg.item {
+    color: #444444;
+    font-size 14px !important;
 }
 
 #inject-display .item  {
