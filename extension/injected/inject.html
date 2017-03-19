@@ -23,7 +23,7 @@
 </script>
 
 <script id="error" type="text/x-handlebars-template">
-    <div id="errormsg" class="text">{{text}}</div>
+    <div id="errormsg" class="item">{{text}}</div>
 </script>
 
 <script id="items" type="text/x-handlebars-template">
@@ -33,5 +33,7 @@
             <div class="street">{{Address}}</div>
             <div class="distance">Travel Time: {{duration}}</div>
         </div>
+    {{else}}
+        <div id="somemsg" class="item">Sorry, there were no meet spots found near you.</div>
     {{/each}}
 </script>
