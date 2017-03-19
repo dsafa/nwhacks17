@@ -21,14 +21,33 @@ app.use(function(req, res, next) {
   next(); 
 });
 
+var calcCrimeScore = function(hotspot) {
+  var neigh = hotspot["Neighbourhood"]
+  var score = 0;
+
+  pg.query("SELECT * FROM CrimeStatistics WHERE Neighbourhood=$1;",
+    [neigh], function (err, result) {
+      if (err) throw err;
+      
+      var res = result.rows[0]
+
+      var crimeArr = [["SexOffences", 6.5], ["Assaults", 8.0], ["Robbery", 10.0], ["BreakingAndEntering", 2.0], ["TheftOfMotorVehicle", 4.5], ["TheftFromAuto", 4.5], ["Theft5K", 3.0], ["Arson", 2.5], ["Mischief", 1.0], ["OffensiveWeapons", 7.5]]
+      
+      for (i = 0; i < crimeArr.length; i++) {
+        score += parseInt(res[crimeArr[i][0]]) * crimeArr[i][1]
+      }
+    });
+  return score;
+}
+
 app.post('/api/location', multer.array(), function (req, res) {
 	console.log(req.body);
 
   var src = req.body["location1"].split(",");
   var dest = req.body["location2"].split(",");
 
-  var lat = parseFloat(src[0]) + parseFloat(dest[0]);
-  var lng = parseFloat(src[1]) + lat
+  var lat = (parseFloat(src[0]) + parseFloat(dest[0])) / 2;
+  var lng = (parseFloat(src[1]) + parseFloat(dest[1])) / 2;
 
   pg.query("SELECT * FROM Hotspot H WHERE SQRT(POW($1 - H.Lat, 2) + POW($2 - H.Long, 2)) < $3;", 
     [lat, lng, parseFloat(req.body["radius"])/111], function (err, result) {
@@ -37,6 +56,8 @@ app.post('/api/location', multer.array(), function (req, res) {
     // just print the result to the console
     vals = {"locations" : []};
     result.rows.forEach(function(row) {
+      score = calcCrimeScore(row)
+      console.log(score)
       vals["locations"].push(row)
     });
 
