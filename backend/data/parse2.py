@@ -1,13 +1,17 @@
 import urllib2
 import json
+import codecs
 
 neighborhoods = [line.rstrip('\n') for line in open('neighborhoods.txt')]
 
-with open("hotspots.csv", "w") as file:
-	lines = [line.rstrip('\n') for line in open('data.csv')]
+with codecs.open("hotspots.csv", encoding='utf-8', mode='w+') as file:
+	lines = [line.replace("\r\n", "\n").rstrip('\n') for line in codecs.open('data.csv', encoding='utf-8', mode='r')]
 
 	for line in lines:
-		request = urllib2.urlopen("http://maps.google.com/maps/api/geocode/json?latlng=" + line + "&sensor=false").read()
+		parts = line.split(",")
+		url = "http://maps.google.com/maps/api/geocode/json?latlng=" + parts[2] + "," + parts[3] + "&sensor=false"
+		print(url + "\n")
+		request = urllib2.urlopen(url).read()
 		data = json.loads(request)
 		for result in data["results"]:
 			for addr in result["address_components"]:
