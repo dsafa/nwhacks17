@@ -35,6 +35,8 @@ $(document).ready(function(){
         storage.set({'listSize': valueAmount}, function() {
             console.log("saved list size");
         });
+
+        window.close();
     });
 
     // Update range text value based on slider

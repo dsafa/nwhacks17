@@ -1,35 +1,44 @@
-<link rel="stylesheet" href="dropdown.css">	
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="dropdown.css">
+
 
 <div class="settings">
-    <h1>Settings</h1>
-
-    <label>Transporation Type</label>
+    <center><h1>Settings</h1></center>
+    <hr/>
+    <center><p class="transport">Transporation Type</p></center>
     <div class="Mode">
-        <label for="driving">Driving</label>
-        <input type="radio" name="transMode" id="driving" value="driving" checked="checked"><br/>
+        <div class="modeSelection">
+            <label for="driving">Driving</label><br/>
+            <input type="radio" name="transMode" id="driving" value="driving" checked="checked">
+        </div>
 
-        <label for="walking">Walking</label>
-        <input type="radio" name="transMode" id="walking" value="walking"><br/>
+        <div class="modeSelection">
+            <label for="walking">Walking</label><br/>
+            <input type="radio" name="transMode" id="walking" value="walking">
+        </div>
 
-        <label for="transit">Transit</label>
-        <input type="radio" name="transMode" id="transit" value="transit"><br/>
+        <div class="modeSelection">
+            <label for="transit">Transit</label><br/>
+            <input type="radio" name="transMode" id="transit" value="transit">
+        </div>
     </div>
-    <br/>
+    <hr />
 
-    <div class="radius">
-        <label for="radius">Search Radius (km)</label>
-        <input id="radius" name="radius" />
+    <div id="radiusBox">
+        <center><label for="radius">Search Radius (km)</label></center>
+        <center><input type="text" id="radius" name="radius" /></center>
     </div>
-    <br/>
+    <hr />
 
-    <div>
-      <label for="listSize">Maximum Meet Spots to Showcase</label>
-      <input type="range" data-popup-enabled="true" data-show-value="true" data-highlight="true" name="listSize" id="boxes" value="3" min="1" max="10">
-      <span id="rangeVal">3</span>
+    <div id="listBox">
+        <center><label for="listSize">Maximum Meet Spots to Showcase</label></center>
+        <div id="sliderbar">
+            <input type="range" data-popup-enabled="true" data-show-value="true" data-highlight="true" name="listSize" id="boxes" value="3" min="1" max="10">
+            <span id="rangeVal">3</span>
+        </div>
     </div>
-    <br/>
 
-    <input type="button" id="saveAll" value="Save Changes" name="saveAll">
+    <button type="button" id="saveAll" value="Save and Quit" name="saveAll">Save and Quit</button>
 
 </div>
 
