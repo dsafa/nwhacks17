@@ -44,6 +44,8 @@ var calcCrimeScore = function(hotspot) {
   for (i = 0; i < crimeArr.length; i++) {
     score += parseInt(res[crimeArr[i][0]]) * crimeArr[i][1]
   }
+
+  score = Math.sqrt(score * hotspot["duration_val"]);
     
   return score;
 }
@@ -67,20 +69,17 @@ app.post('/api/location', function (req, res, next) {
     var calls = [];
     result.rows.forEach(function(row) {
       calls.push(function(next) {
-        row["score"] = calcCrimeScore(row);
-
-        request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode=@mode&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
-          ,src[0], src[1], row["Lat"], row["Long"]), function (error, response, body) {
+        request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode%s&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
+          ,src[0], src[1], row["Lat"], row["Long"], req.body["mode"]), function (error, response, body) {
             var json = JSON.parse(body);
-            row["duration"] = json["routes"][0]["legs"][0]["duration"]["value"];
-            console.log(json["routes"][0]["legs"][0]["duration"]);
+            row["duration"] = json["routes"][0]["legs"][0]["duration"]["text"];
+            row["duration_val"] = json["routes"][0]["legs"][0]["duration"]["value"];
+            row["score"] = calcCrimeScore(row);
             vals["locations"].push(row);
             next();
         }); 
       });
     });
-
-
 
     async.parallel(calls, function(err, result) {
       if (err) {
@@ -91,7 +90,7 @@ app.post('/api/location', function (req, res, next) {
       vals["locations"].sort(function(a, b) {
         return a["score"] - b["score"];
       });
-      vals["locations"] = vals["locations"].slice(0, 3);
+      vals["locations"] = vals["locations"].slice(0, req.body["size"]);
 
       if (vals["locations"].length == 0) {
         res.status(500).json({"message":"No recommended locations"});
