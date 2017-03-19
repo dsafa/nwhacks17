@@ -73,5 +73,16 @@ $(document).ready(function() {
     $(".mapbox").append(data.bodyText);
     $("#injection").load(chrome.extension.getURL("injected/inject.html"), renderer.displayLoading);
 
+    // Request for data, display it if success, display error if fails
+    restAPI.sendGet(
+            "",
+            function(data) {
+                renderer.displayContent(data);
+            },
+            function(error) {
+                console.log("Error!");
+            }
+        );
+
 });
 
