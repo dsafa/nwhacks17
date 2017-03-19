@@ -6,7 +6,20 @@
 <div id="inject-display"></div>
 
 <script id="loading" type="text/x-handlebars-template">
-    <div class="loader">Loading...</div>
+    <div class="sk-circle">
+      <div class="sk-circle1 sk-child"></div>
+      <div class="sk-circle2 sk-child"></div>
+      <div class="sk-circle3 sk-child"></div>
+      <div class="sk-circle4 sk-child"></div>
+      <div class="sk-circle5 sk-child"></div>
+      <div class="sk-circle6 sk-child"></div>
+      <div class="sk-circle7 sk-child"></div>
+      <div class="sk-circle8 sk-child"></div>
+      <div class="sk-circle9 sk-child"></div>
+      <div class="sk-circle10 sk-child"></div>
+      <div class="sk-circle11 sk-child"></div>
+      <div class="sk-circle12 sk-child"></div>
+    </div>
 </script>
 
 <script id="error" type="text/x-handlebars-template">
@@ -16,9 +29,9 @@
 <script id="items" type="text/x-handlebars-template">
     {{#each locations}}
         <div class="item">
-            <div class="location">{{Name}}</div>
+            <div class="name">{{Name}}</div>
             <div class="street">{{Address}}</div>
-            <div class="distance">{{Neighbourhood}}</div>
+            <div class="distance">Travel Time: {{duration}}</div>
         </div>
     {{/each}}
 </script>
