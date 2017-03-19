@@ -4,22 +4,12 @@ function RestAPI() {
     var self = this;
 
     this.sendPost = function(req_location, req_body, success_func, error_func) {
-        console.log(req_body);
         $.ajax({
             type: 'POST',
             url: WEB_URL + req_location,
             data: JSON.stringify(req_body),
             contentType: "application/json",
             dataType: 'json',
-            success: success_func,
-            error: error_func
-        });
-    }
-
-    this.sendGet = function(req_location, success_func, error_func) {
-        $.ajax({
-            url: WEB_URL + req_location,
-            type: "GET",
             success: success_func,
             error: error_func
         });
@@ -79,8 +69,8 @@ $(document).ready(function() {
 
         // Send a request for data from remote server
         var req_data = {
-            location1: "49.284902,-123.111629",
-            location2: "49.284902,-123.111629",
+            location1: user_latitude + "," + user_longitude,
+            location2: seller_latitude + "," + seller_longitude,
             radius: 2
         };
 
@@ -88,7 +78,6 @@ $(document).ready(function() {
                 "api/location",
                 req_data,
                 function(data) {
-                    console.log(data);
                     renderer.displayContent(data);
                 },
                 function(error) {
