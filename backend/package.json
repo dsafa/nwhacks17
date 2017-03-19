@@ -4,7 +4,10 @@
   "description": "nwhacks project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "concurrently --kill-others \"npm run server\" \"npm run localtunnel\"",
+    "server": "node index.js",
+    "localtunnel": "lt --port 3000 --subdomain safesale",
+    "preinstall": "npm install -g localtunnel"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +16,8 @@
     "express": "^4.15.2",
     "multer": "^1.3.0",
     "pg": "^6.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^3.4.0"
   }
 }
