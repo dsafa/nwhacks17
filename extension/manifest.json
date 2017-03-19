@@ -7,7 +7,11 @@
 		"default_title": "tool tip",
 		"default_popup": "popup.html"
 	},
-	"content_scripts": {
-		"js": ["content.js "]
-	}
+	"content_scripts": [
+		{
+		"matches": ["https://vancouver.craigslist.ca/nvn/swp/6014856370.html"],
+		"run_at": "document_end",
+		"js": ["content.js"]
+		}
+	]
 }
