@@ -45,6 +45,10 @@ function Renderer() {
 
 $(document).ready(function() {
 
+    if (!$("span#titletextonly").length || !$(".mapbox").length) {
+        return;
+    }
+
     // Get the lat / long of the ad's location
     var maps_box = document.getElementById("map");
     var seller_latitude = maps_box.dataset.latitude;
