@@ -1,47 +1,37 @@
-
-	<link rel="stylesheet" href="dropdown.css">	
-	<script type="text/javascript" src="../common/jquery-3.2.0.min.js"></script>
-	<script type="text/javascript" src="dropdown.js"></script>
-
+<link rel="stylesheet" href="dropdown.css">	
 
 <div class="settings">
-	<h1>Settings</h1>
-	<button id="button" type="radio">Press me</button>
-	
-<div class="Mode">
-	<label for="driving">Driving</label>
-    <input id="driving" name="mode" type="radio"> <br>
-   	<label for="walking">Walking</label>
-    <input id="walking" name="mode" type="radio"> <br>
-   	<label for="transit">Transit</label>
-    <input id="transit" name="mode" type="radio"> <br>
-</div>
+    <h1>Settings</h1>
 
-<div class="size">
-	<textarea id="size">
-		
-	</textarea>
-	<input type="button" id="saveSize" value="savedSize" name="Save">
-</div>
+    <label>Transporation Type</label>
+    <div class="Mode">
+        <label for="driving">Driving</label>
+        <input type="radio" name="transMode" id="driving" value="driving" checked="checked"><br/>
 
-<div class="amount">
-	<textarea id="amount">
-	
-	</textarea>
-	<input type="button" id="saveNumber" value="savedNumber" name="Save">
-</div>
+        <label for="walking">Walking</label>
+        <input type="radio" name="transMode" id="walking" value="walking"><br/>
 
-<div>
+        <label for="transit">Transit</label>
+        <input type="radio" name="transMode" id="transit" value="transit"><br/>
+    </div>
+    <br/>
 
-  <label for="points">How many:</label>
-  <input type="range" data-popup-enabled="true" data-show-value="true" data-highlight="true" name="howMany" id="boxes" value="3" min="0" max="10">
+    <div class="radius">
+        <label for="radius">Search Radius (km)</label>
+        <input id="radius" name="radius" />
+    </div>
+    <br/>
 
-</div>
+    <div>
+      <label for="listSize">Maximum Meet Spots to Showcase</label>
+      <input type="range" data-popup-enabled="true" data-show-value="true" data-highlight="true" name="listSize" id="boxes" value="3" min="1" max="10">
+      <span id="rangeVal">3</span>
+    </div>
+    <br/>
+
+    <input type="button" id="saveAll" value="Save Changes" name="saveAll">
 
 </div>
 
-<!-- mode, size, how many to display -->
-</body>
-</html>
-
-
+<script type="text/javascript" src="../common/jquery-3.2.0.min.js"></script>
+<script type="text/javascript" src="dropdown.js"></script>
