@@ -15,7 +15,7 @@ with codecs.open("data.csv", encoding='utf-8', mode='w+') as file:
 
 			data = json.loads(request)
 			for r in data["results"]:
-				name = r["name"].replace(",", "")
+				name = r["name"].replace(",", "").replace("'", "")
 				loc2 = r["geometry"]["location"]
-				addr = r["formatted_address"].replace(",", "")
+				addr = r["formatted_address"].replace(",", "").replace("'", "")
 				file.write("'" + addr + "','" + name + "'," + str(loc2["lat"]) + "," + str(loc2["lng"]) + "\n")
