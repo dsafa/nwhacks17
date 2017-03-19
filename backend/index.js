@@ -92,11 +92,7 @@ app.post('/api/location', function (req, res, next) {
       });
       vals["locations"] = vals["locations"].slice(0, req.body["size"]);
 
-      if (vals["locations"].length == 0) {
-        res.status(500).json({"message":"No recommended locations"});
-      } else {
-        res.status(200).json(vals)
-      }
+      res.status(200).json(vals)
     });
   });
 });
