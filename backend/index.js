@@ -1,6 +1,7 @@
 var app = require('express')();
 var multer = require('multer')();
 var pool = require('pg').Pool;
+var bodyParser = require("body-parser");
 
 var config = {
   user: 'root',
@@ -25,6 +26,9 @@ app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 })
 
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({extended : true}));
+
 app.use(function(req, res, next) {  
   res.header("Access-Control-Allow-Origin", "*");  
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");  
@@ -42,8 +46,8 @@ var calcCrimeScore = function(hotspot) {
   return score;
 }
 
-app.post('/api/location', multer.array(), function (req, res) {
-	console.log(req.body);
+app.post('/api/location', function (req, res, next) {
+  console.log(req.body);
 
   var src = req.body["location1"].split(",");
   var dest = req.body["location2"].split(",");

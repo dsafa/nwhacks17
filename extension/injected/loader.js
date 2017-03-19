@@ -4,10 +4,13 @@ function RestAPI() {
     var self = this;
 
     this.sendPost = function(req_location, req_body, success_func, error_func) {
+        console.log(req_body);
         $.ajax({
+            type: 'POST',
             url: WEB_URL + req_location,
-            type: "post",
-            data: req_body,
+            data: JSON.stringify(req_body),
+            contentType: "application/json",
+            dataType: 'json',
             success: success_func,
             error: error_func
         });
@@ -16,7 +19,7 @@ function RestAPI() {
     this.sendGet = function(req_location, success_func, error_func) {
         $.ajax({
             url: WEB_URL + req_location,
-            type: "get",
+            type: "GET",
             success: success_func,
             error: error_func
         });
@@ -43,29 +46,22 @@ function Renderer() {
         self.renderContent(source, data);
     }
 
+    this.displayError = function(data) {
+        var source = $("#error").html();
+        self.renderContent(source, data);
+    }
+
 }
 
 $(document).ready(function() {
 
     // Get the lat / long of the ad's location
     var maps_box = document.getElementById("map");
-    var latitude = maps_box.dataset.latitude;
-    var longitude = maps_box.dataset.longitude;
+    var seller_latitude = maps_box.dataset.latitude;
+    var seller_longitude = maps_box.dataset.longitude;
 
     const restAPI = new RestAPI();
     const renderer = new Renderer();
-
-    var testJson = {
-        "locations": [
-            {
-                "name": "University of British Columbia",
-                "address": "2329 West Mall, Vancouver, BC V6T 1Z4",
-                "distance": "0.4mi",
-                "latitude": 49.2598379,
-                "longitude": -123.2459363
-            }
-        ]
-    };
 
     // Load the HTML responsible for displaying the locations to the display
     var data = {};
@@ -73,16 +69,37 @@ $(document).ready(function() {
     $(".mapbox").append(data.bodyText);
     $("#injection").load(chrome.extension.getURL("injected/inject.html"), renderer.displayLoading);
 
-    // Request for data, display it if success, display error if fails
-    restAPI.sendGet(
-            "",
-            function(data) {
-                renderer.displayContent(data);
-            },
-            function(error) {
-                console.log("Error!");
-            }
-        );
+    // Get user location
+    navigator.geolocation.getCurrentPosition(function(position) {
+        console.log("Latitude: " + position.coords.latitude +
+        " Longitude: " + position.coords.longitude);
+
+        var user_latitude = position.coords.latitude;
+        var user_longitude = position.coords.longitude;
+
+        // Send a request for data from remote server
+        var req_data = {
+            location1: "49.284902,-123.111629",
+            location2: "49.284902,-123.111629",
+            radius: 2
+        };
+
+        restAPI.sendPost(
+                "api/location",
+                req_data,
+                function(data) {
+                    console.log(data);
+                    renderer.displayContent(data);
+                },
+                function(error) {
+                    console.log(error);
+                    var message = {
+                        "text": "An error occurred, please try again later."
+                    };
+                    renderer.displayError(message);
+                }
+            );
+    });
 
 });
 

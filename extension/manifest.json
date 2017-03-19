@@ -20,5 +20,8 @@
         "injected/inject.html",
         "injected/loading.html",
         "dropdown/dropdown.html"
+    ],
+    "permissions": [
+        "geolocation"
     ]
 }
