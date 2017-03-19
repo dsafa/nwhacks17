@@ -1,7 +1,9 @@
 var app = require('express')();
-var multer = require('multer')();
+var request = require('request');
 var pool = require('pg').Pool;
 var bodyParser = require("body-parser");
+var async = require("async");
+var util = require("util");
 
 var config = {
   user: 'root',
@@ -59,19 +61,43 @@ app.post('/api/location', function (req, res, next) {
     [lat, lng, parseFloat(req.body["radius"])/111], function (err, result) {
     if (err) throw err;
 
-    // just print the result to the console
+    // Get score
     vals = {"locations" : []};
+
+    var calls = [];
     result.rows.forEach(function(row) {
-      row["score"] = calcCrimeScore(row);
-      console.log(row["score"] + "\n");
-      vals["locations"].push(row);
+      calls.push(function(next) {
+        row["score"] = calcCrimeScore(row);
+
+        request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode=@mode&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
+          ,src[0], src[1], row["Lat"], row["Long"]), function (error, response, body) {
+            var json = JSON.parse(body);
+            row["duration"] = json["routes"][0]["legs"][0]["duration"]["value"];
+            console.log(json["routes"][0]["legs"][0]["duration"]);
+            vals["locations"].push(row);
+            next();
+        }); 
+      });
     });
 
-    vals["locations"].sort(function(a, b) {
-      return a["score"] - b["score"];
-    });
-    vals["locations"] = vals["locations"].slice(0, 3);
 
-    res.status(200).json(vals)
+
+    async.parallel(calls, function(err, result) {
+      if (err) {
+        res.status(500).json({"message":"error"});
+        return;
+      }
+
+      vals["locations"].sort(function(a, b) {
+        return a["score"] - b["score"];
+      });
+      vals["locations"] = vals["locations"].slice(0, 3);
+
+      if (vals["locations"].length == 0) {
+        res.status(500).json({"message":"No recommended locations"});
+      } else {
+        res.status(200).json(vals)
+      }
+    });
   });
 });
