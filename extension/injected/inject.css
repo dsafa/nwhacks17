@@ -1,5 +1,6 @@
 #title {
 	font-size: 15px;
+	margin-bottom: 4px;
 }
 
 #iframe .item  {
@@ -11,10 +12,11 @@
 	margin-left: 1px;
 }
 #iframe .item .location {
-	font-size: 20px;
+	font-size: 14px !important;
 }
-#iframe .item .street .distance {
-	font-size: 400px;
+#iframe .item .street,
+#iframe .item .distance {
+	font-size: 10px !important;
 	margin-top: 2px;
 }
 
