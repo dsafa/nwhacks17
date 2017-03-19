@@ -40,6 +40,7 @@ function APIHelper() {
                     "api/location",
                     req_data,
                     function(data) {
+                        console.log(data);
                         renderer.displayContent(data);
                     },
                     function(error) {
@@ -81,6 +82,16 @@ function Renderer() {
         var source = $("#items").html();
         isLoading = false;
         self.renderContent(source, data);
+
+        $("#inject-display .item").click(function(){
+            window.open($(this).data("href"));
+            $(this).removeClass( "grow" );
+        });
+        $("#inject-display .item").mouseenter(function() {
+            $(this).addClass( "grow" );
+        }).mouseleave(function() {
+            $(this).removeClass( "grow" );
+        });
     }
 
     this.displayError = function(data) {

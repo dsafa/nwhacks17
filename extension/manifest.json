@@ -13,7 +13,7 @@
             "matches": ["https://vancouver.craigslist.ca/*"],
             "run_at": "document_end",
             "js": ["common/jquery-3.2.0.min.js", "common/handlebars-v4.0.5.js", "injected/loader.js"],
-            "css": ["injected/inject.css"]
+            "css": ["common/animate.css", "injected/inject.css"]
         }
     ],
     "web_accessible_resources": [
