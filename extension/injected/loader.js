@@ -1,8 +1,9 @@
 const WEB_URL = "https://safesale.localtunnel.me/";
 
-class RestAPI {
+function RestAPI() {
+    var self = this;
 
-    sendPost(req_location, req_body, success_func, error_func) {
+    this.sendPost = function(req_location, req_body, success_func, error_func) {
         $.ajax({
             url: WEB_URL + req_location,
             type: "post",
@@ -12,13 +13,34 @@ class RestAPI {
         });
     }
 
-    sendGet(req_location, success_func, error_func) {
+    this.sendGet = function(req_location, success_func, error_func) {
         $.ajax({
             url: WEB_URL + req_location,
             type: "get",
             success: success_func,
             error: error_func
         });
+    }
+
+}
+
+function Renderer() {
+    var self = this;
+
+    this.renderContent = function(source, context) {
+        var template = Handlebars.compile(source);
+        var html = (context != null) ? template(context) : template(context);
+        $("#inject-display").html(html);
+    }
+
+    this.displayLoading = function() {
+        var source = $("#loading").html();
+        self.renderContent(source, {});
+    }
+
+    this.displayContent = function(data) {
+        var source = $("#items").html();
+        self.renderContent(source, data);
     }
 
 }
@@ -30,19 +52,37 @@ $(document).ready(function() {
     var latitude = maps_box.dataset.latitude;
     var longitude = maps_box.dataset.longitude;
 
+    const restAPI = new RestAPI();
+    const renderer = new Renderer();
+
+    var testJson = {
+        "locations": [
+            {
+                "name": "University of British Columbia",
+                "address": "2329 West Mall, Vancouver, BC V6T 1Z4",
+                "distance": "0.4mi",
+                "latitude": 49.2598379,
+                "longitude": -123.2459363
+            }
+        ]
+    };
+
     // Load the HTML responsible for displaying the locations to the display
     var data = {};
-data.bodyText = "<div id=\"injection\"></div>"; 
+    data.bodyText = "<div id=\"injection\"></div>"; 
     $(".mapbox").append(data.bodyText);
-    $("#injection").load(chrome.extension.getURL("injected/inject.html"));
+    $("#injection").load(chrome.extension.getURL("injected/inject.html"), renderer.displayLoading);
 
-    // Start doing some api stuff
-    const restAPI = new RestAPI();
-    restAPI.sendGet("", function(data) {
-        console.log("Get Request Succeeded");
-    }, function(data) {
-        console.log("Get Request Failed");
-    });
+    // Request for data, display it if success, display error if fails
+    restAPI.sendGet(
+            "",
+            function(data) {
+                renderer.displayContent(data);
+            },
+            function(error) {
+                console.log("Error!");
+            }
+        );
 
 });
 

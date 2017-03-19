@@ -1,20 +1,24 @@
 {
-	"name": "CraigsListExtension",
-	"version": "0.0.1",
-	"manifest_version": 2,
-	"description": "Blank",
-	"browser_action": {
-		"default_title": "tool tip",
+    "name": "Safe Sale",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Blank",
+    "browser_action": {
+        "default_title": "tool tip",
         "default_popup": "dropdown/dropdown.html",
-        "default_title": "CraigsListExtension"
-	},
-	"content_scripts": [
-		{
-		"matches": ["https://vancouver.craigslist.ca/nvn/swp/6014856370.html"],
-		"run_at": "document_end",
-		"js": ["common/jquery-3.2.0.min.js", "injected/loader.js"],
-		"css": ["injected/inject.css"]
-		}
-	],
-	"web_accessible_resources": ["injected/inject.html", "dropdown/dropdown.html", "injected/inject.css"]
+        "default_title": "Safe Sale"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://vancouver.craigslist.ca/nvn/swp/6014856370.html"],
+            "run_at": "document_end",
+            "js": ["common/jquery-3.2.0.min.js", "common/handlebars-v4.0.5.js", "injected/loader.js"],
+            "css": ["injected/inject.css"]
+        }
+    ],
+    "web_accessible_resources": [
+        "injected/inject.html",
+        "injected/loading.html",
+        "dropdown/dropdown.html"
+    ]
 }
