@@ -5,15 +5,15 @@
 	"description": "Blank",
 	"browser_action": {
 		"default_title": "tool tip",
-        "default_popup": "dropdown/main.html",
+        "default_popup": "src/dropdown.html",
         "default_title": "CraigsListExtension"
 	},
 	"content_scripts": [
 		{
 		"matches": ["https://vancouver.craigslist.ca/nvn/swp/6014856370.html"],
 		"run_at": "document_end",
-		"js": ["injected/loader.js"]
+		"js": ["jquery-3.2.0.min.js", "src/loader.js"]
 		}
 	],
-	"web_accessible_resources": ["injected/inject.html", "dropdown/main.html"]
+	"web_accessible_resources": ["src/inject.html", "src/main.html"]
 }
