@@ -37,7 +37,7 @@ app.use(function(req, res, next) {
   next(); 
 });
 
-var calcCrimeScore = function(hotspot) {
+var calcCrimeScore = function(hotspot, distToPolice) {
   var neigh = hotspot["Neighbourhood"]
   var score = 0;
   var res = crimeStats[neigh];
@@ -45,7 +45,7 @@ var calcCrimeScore = function(hotspot) {
     score += parseInt(res[crimeArr[i][0]]) * crimeArr[i][1]
   }
 
-  score = Math.sqrt(score * hotspot["duration_val"]);
+  score = Math.cbrt(score * hotspot["duration_val"] * distToPolice);
     
   return score;
 }
@@ -71,12 +71,20 @@ app.post('/api/location', function (req, res, next) {
       calls.push(function(next) {
         request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode%s&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
           ,src[0], src[1], row["Lat"], row["Long"], req.body["mode"]), function (error, response, body) {
-            var json = JSON.parse(body);
-            row["duration"] = json["routes"][0]["legs"][0]["duration"]["text"];
-            row["duration_val"] = json["routes"][0]["legs"][0]["duration"]["value"];
-            row["score"] = calcCrimeScore(row);
-            vals["locations"].push(row);
-            next();
+            
+          var json = JSON.parse(body);
+          row["duration"] = json["routes"][0]["legs"][0]["duration"]["text"];
+          row["duration_val"] = json["routes"][0]["legs"][0]["duration"]["value"];
+          
+          pg.query("SELECT SQRT(POW(R2.Lat - P.Lat, 2) + (POW(R2.Long - P.Long, 2))) AS DIST FROM ((SELECT * FROM Hotspot H WHERE H.Lat = $1 AND H.Long = $2) AS R1 INNER JOIN DistrictOf D ON R1.Neighbourhood = D.Neighbourhood) AS R2 INNER JOIN PoliceStation P ON R2.City = P.City;", 
+                [row["Lat"], row["Long"]], function (err, result) {
+              if (err) throw err;
+              var dist2police = result.rows[0]["DIST"];
+         
+              row["score"] = calcCrimeScore(row, dist2police);
+              vals["locations"].push(row);
+              next();
+          });
         }); 
       });
     });
@@ -86,6 +94,8 @@ app.post('/api/location', function (req, res, next) {
         res.status(500).json({"message":"error"});
         return;
       }
+
+
 
       vals["locations"].sort(function(a, b) {
         return a["score"] - b["score"];
