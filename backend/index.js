@@ -69,7 +69,7 @@ app.post('/api/location', function (req, res, next) {
     var calls = [];
     result.rows.forEach(function(row) {
       calls.push(function(next) {
-        request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode%s&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
+        request(util.format("https://maps.googleapis.com/maps/api/directions/json?origin=%s,%s&destination=%s,%s&mode=%s&key=AIzaSyA2xBMlDvfU5ffBfgnQL4GzXTI3LLQT-P0"
           ,src[0], src[1], row["Lat"], row["Long"], req.body["mode"]), function (error, response, body) {
             
           var json = JSON.parse(body);
