@@ -62,13 +62,15 @@ app.post('/api/location', function (req, res, next) {
     // just print the result to the console
     vals = {"locations" : []};
     result.rows.forEach(function(row) {
-      score = calcCrimeScore(row)
-      console.log(score)
-      vals["locations"].push(row)
+      row["score"] = calcCrimeScore(row);
+      console.log(row["score"] + "\n");
+      vals["locations"].push(row);
     });
 
-    vals["locations"].sort();
-    vals["locations"].reverse();
+    vals["locations"].sort(function(a, b) {
+      return a["score"] - b["score"];
+    });
+    vals["locations"] = vals["locations"].slice(0, 3);
 
     res.status(200).json(vals)
   });
