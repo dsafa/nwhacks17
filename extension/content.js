@@ -1,33 +1,15 @@
+// Get the lat / long of the ad's location
+var maps_box = document.getElementById("map");
+var latitude = google.dataset.latitude;
+var longitude = google.dataset.longitude;
 
-//Yes, that's possible. Use chrome.extension.getURL to get an absolute URL for the resource. For example:
-// $.get(chrome.extension.getURL('/template.html'), function(data) {
-//     $(data).appendTo('body');
-//     // Or if you're using jQuery 1.8+:
-//     // $($.parseHTML(data)).appendTo('body');
-// });
-// 
-// 
-// Rob's suggestion does the job (see accepted answer). The only additional step is to register the file in the manifest under web_accessible_resources.
+// Find location to place our embedded element
+var location_to_append = document.getElementsByClassName("mapbox");
 
-// {
-//   ...
-//   "web_accessible_resources": [
-//     "myimportfile1.html",
-//     "myimportfile2.html"
-//   ],
-//   ...
-// }
-// 
+// Create a simple button with text
+var some_button = document.createElement("button");
+var text = document.createTextNode("test");
+some_button.appendChild(text);
 
-// var html = document.documentElement.outerHTML;
-// chrome.extension.sendMessage("inject.js", html);
-
-var google = document.getElementById("map");
-var craigslist = document.getElementsById("postingbody");
-var lat = google.dataset.latitude;
-var long = google.dataset.longitude;
-alert(long);
-    var button = document.createElement("button");
-    var text = document.createTextNode("test");
-    button.appendChild(text);
-    craigslist.appendChild(button);
+// Place our embedded element onto the page
+location_to_append[0].after(some_button);
