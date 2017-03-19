@@ -16,5 +16,4 @@ location_to_append[0].after(some_button);
 
 //Inject inject.html into proper location
 var iframe = document.createElement("iframe");
-iframe.src = chrome.extension.getURL("inject.html");
-location_to_append[0].after(iframe);
+iframe.src = chrome.extension.getURL("injected/inject.html");
