@@ -1,4 +1,4 @@
-const WEB_URL = "https://safesale.localtunnel.me/";
+const WEB_URL = "https://safesales.localtunnel.me/";
 
 function RestAPI() {
     var self = this;

@@ -1,6 +1,27 @@
+#title-container {
+    display: block;
+    height: 30px;
+}
+
 #title {
     font-size: 15px;
+    margin-top: 3px;
     margin-bottom: 4px;
+    float: left;
+}
+
+#reload {
+    display: block;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjE4NzQuMDQyIDczMC42NTEgNDIuODk2IDQxLjQ5OSI+ICA8cGF0aCBpZD0iUGF0aF8xIiBkYXRhLW5hbWU9IlBhdGggMSIgZD0iTTU4Ljc4NiwxNC40OTFhMTQuNDkxLDE0LjQ5MSwwLDEsMC0yOC45ODEsMCwuODU5Ljg1OSwwLDEsMCwxLjcxOSwwQTEyLjc3MiwxMi43NzIsMCwxLDEsNDQuMywyNy4yNjJINDIuOGwyLjEzMi0yLjM4N2EuODU5Ljg1OSwwLDEsMC0xLjI4Mi0xLjE0NWwtMy4wNDgsMy40MTJhMS40NjksMS40NjksMCwwLDAsMCwxLjk1OWwzLjA0OCwzLjQxMmEuODU5Ljg1OSwwLDEsMCwxLjI4Mi0xLjE0NUw0Mi44LDI4Ljk4MUg0NC4zQTE0LjUwNywxNC41MDcsMCwwLDAsNTguNzg2LDE0LjQ5MVoiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE5MDMuNDM2IDc5Ny45NjEpIHJvdGF0ZSgtMTIwKSIvPjwvc3ZnPg==);
+    width: 22px;
+    height: 22px;
+    float: right;
+}
+
+#error.text {
+    border-top: 0.5px solid black;
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
 
 #inject-display .item  {
