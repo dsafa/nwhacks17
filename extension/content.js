@@ -16,5 +16,17 @@ location_to_append[0].after(some_button);
 
 //Inject inject.html into proper location
 var iframe = document.createElement("iframe");
+var iframeloading = document.createElement("iframe");
+iframeloading.src = chrome.extension.getURL("popup.html");
 iframe.src = chrome.extension.getURL("inject.html");
-location_to_append[0].after(iframe);
+
+
+console.log(document.readyState);
+if(document.readyState === 'interactive'){
+	location_to_append[0].after(iframeloading);
+}
+else {
+	location_to_append[0].after(iframe);
+}
+
+//setTimeout(function() {location_to_append[0].after(iframeloading);}, 3000);
