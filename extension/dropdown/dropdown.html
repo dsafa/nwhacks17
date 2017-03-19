@@ -1,18 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Popup</title>
-	<link rel="stylesheet" href="popup.css">	
-</head>
-<body>
+<link rel="stylesheet" href="dropdown.css">	
 
-<div style="width:200px">
-	<button id="button">Press me</button>
+<div class="settings">
+    <h1>Settings</h1>
+
+    <label>Transporation Type</label>
+    <div class="Mode">
+        <label for="driving">Driving</label>
+        <input type="radio" name="transMode" id="driving" value="driving" checked="checked"><br/>
+
+        <label for="walking">Walking</label>
+        <input type="radio" name="transMode" id="walking" value="walking"><br/>
+
+        <label for="transit">Transit</label>
+        <input type="radio" name="transMode" id="transit" value="transit"><br/>
+    </div>
+    <br/>
+
+    <div class="radius">
+        <label for="radius">Search Radius (km)</label>
+        <input id="radius" name="radius" />
+    </div>
+    <br/>
+
+    <div>
+      <label for="listSize">Maximum Meet Spots to Showcase</label>
+      <input type="range" data-popup-enabled="true" data-show-value="true" data-highlight="true" name="listSize" id="boxes" value="3" min="1" max="10">
+      <span id="rangeVal">3</span>
+    </div>
+    <br/>
+
+    <input type="button" id="saveAll" value="Save Changes" name="saveAll">
+
 </div>
 
 <script type="text/javascript" src="../common/jquery-3.2.0.min.js"></script>
 <script type="text/javascript" src="dropdown.js"></script>
-</body>
-</html>
-
-

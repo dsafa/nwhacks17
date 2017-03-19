@@ -1,6 +1,7 @@
 const WEB_URL = "https://safesale.localtunnel.me/";
 const apiHelper = new APIHelper();
 const renderer = new Renderer();
+const storage = chrome.storage.sync;
 
 var isLoading = false;
 var seller_latitude = "";
@@ -27,30 +28,33 @@ function APIHelper() {
             var user_latitude = position.coords.latitude;
             var user_longitude = position.coords.longitude;
 
-            // Send a request for data from remote server
-            var req_data = {
-                location1: user_latitude + "," + user_longitude,
-                location2: seller_latitude + "," + seller_longitude,
-                radius: 2,
-                size: 4,
-                mode: "driving"
-            };
+            storage.get({ 'transMode' : 'driving', 'radius' : 2, 'listSize' : 3 }, function(value) {
+                // Send a request for data from remote server
+                var req_data = {
+                    location1: user_latitude + "," + user_longitude,
+                    location2: seller_latitude + "," + seller_longitude,
+                    radius: value.radius,
+                    size: value.listSize,
+                    mode: value.transMode
+                };
 
-            self.sendPost(
-                    "api/location",
-                    req_data,
-                    function(data) {
-                        console.log(data);
-                        renderer.displayContent(data);
-                    },
-                    function(error) {
-                        console.log(error);
-                        var message = {
-                            "text": "An error occurred, please try again later."
-                        };
-                        renderer.displayError(message);
-                    }
-                );
+                self.sendPost(
+                        "api/location",
+                        req_data,
+                        function(data) {
+                            console.log(data);
+                            renderer.displayContent(data);
+                        },
+                        function(error) {
+                            console.log(error);
+                            var message = {
+                                "text": "An error occurred, please try again later."
+                            };
+                            renderer.displayError(message);
+                        }
+                    );
+                });
+
         });
     }
 
