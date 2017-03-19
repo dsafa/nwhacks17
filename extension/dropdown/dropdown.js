@@ -15,15 +15,27 @@ $(document).ready(function(){
      	storage.set({'amount': valueAmount}, function() {
      		console.log("saved amount");
      	});
+     };
       document.getElementById("boxes").onclick = function() {
       	var valueHowmany = document.getElementById('boxes').valueHowmany;
       	storage.set({'howmany': valueHowmany}, function() {
       		console.log("saved how many.");
       	});
-      };
-     };
-     };
+      	  };
+      	
+      	document.getElementById("size").innerHtml = storage.get('size', function() {
+      		console.log("success");
+      	});
+      	document.getElementById("amount").innerHtml = storage.get('amount', function() {
+      		console.log("success");
+      	});
+      	document.getElementById("boxes").innerText = storage.get('boxes', function() {
+      		console.log("success");
+      	});
+   
+   };
 
+     
 
   //  Retrieve existing settings
 $(':radio').each(function(index, element) {
