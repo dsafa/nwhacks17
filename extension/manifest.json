@@ -4,10 +4,10 @@
 	"manifest_version": 2,
 	"description": "Blank",
 	"browser_action": {
-		"default_icon": "blank",
 		"default_title": "tool tip",
-		"default_popup": "popup.html",
-
-
-	}	
+		"default_popup": "popup.html"
+	},
+	"content_scripts": {
+		"js": ["content.js "]
+	}
 }
