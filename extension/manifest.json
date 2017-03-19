@@ -10,7 +10,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://vancouver.craigslist.ca/nvn/swp/6014856370.html"],
+            "matches": ["https://vancouver.craigslist.ca/*"],
             "run_at": "document_end",
             "js": ["common/jquery-3.2.0.min.js", "common/handlebars-v4.0.5.js", "injected/loader.js"],
             "css": ["injected/inject.css"]
