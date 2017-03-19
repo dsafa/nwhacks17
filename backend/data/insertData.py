@@ -1,5 +1,6 @@
 with open("scriptInput.txt", "w") as input:
 	input.write("cockroach sql --url=postgresql://root@54.186.70.223:26257?sslmode=disable\n")
+	input.write("set database = NWHacks17;\n")
 	input.write("DELETE FROM Hotspot;\n")
 
 	hotspots = [line.rstrip('\n') for line in open('hotspots.csv')]
@@ -9,4 +10,4 @@ with open("scriptInput.txt", "w") as input:
 
 with open("script.sh", "w") as script:
 	script.write("#!/bin/sh\n")
-	script.write("/bin/sh < scriptInput.txt")
+	script.write("/bin/sh < scriptInput.txt\n")
